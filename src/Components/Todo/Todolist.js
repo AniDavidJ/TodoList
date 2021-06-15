@@ -1,20 +1,69 @@
-import React from "react";
+import React, { useState } from "react";
 import { getUser, removeUserSession } from "../Utils/Common";
+import TodoForm from "./TodoForm";
+import Todo from "./Todo";
+import "./Todo.css";
 
 const Todolist = (props) => {
     const user = getUser();
-console.log(user);
+    // console.log(user);
+
     // Manage logout to login
     const handleLogout = () => {
         removeUserSession();
-props.history.push('/')
-    }
-    return(
-        <div> Welcome to Todo List user!! <br/>
-            <input type="button" value="Logout" onClick={handleLogout}/>
+        props.history.push("/");
+    };
+
+    const [todos, setTodos] = useState([]);
+    const addTodo = (todo) => {
+        if (!todo.text || /^\s*$/.test(todo.text)) {
+            return;
+        }
+        const newTodos = [todo, ...todos];
+        setTodos(newTodos);
+    };
+    const completeTodo = (id) => {
+        let updatedTodos = todos.map((todo) => {
+            if (todo.id === id) {
+                todo.isComplete = !todo.isComplete;
+            }
+            return todo;
+        });
+        setTodos(updatedTodos);
+    };
+
+    const updateTodo = (todoId, newValue) => {
+        if (!newValue.text || /^\s*$/.test(newValue.text)) {
+            return;
+        }
+        setTodos((prev) => prev.map((item) => (item.id === todoId ? newValue : item)));
+    };
+
+    const removeTodo = (id) => {
+        const removeArr = [...todos].filter((todo) => todo.id !== id);
+        setTodos(removeArr);
+    };
+
+    return (
+        <div>
+            <input
+                className="todo-button todo-login"
+                type="button"
+                value="Logout"
+                onClick={handleLogout}
+            />
+
+            <div className="todo-app">
+                <h1>{user.username}..Welcome to Todo List !! </h1>
+                <TodoForm onSubmit={addTodo} />
+                <Todo
+                    todos={todos}
+                    completeTodo={completeTodo}
+                    removeTodo={removeTodo}
+                    updateTodo={updateTodo}
+                />
+            </div>
         </div>
-
-
-        )
-}
+    );
+};
 export default Todolist;
