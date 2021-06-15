@@ -11,3 +11,33 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+.header{
+  padding: 10px;
+background: #edf2f4;
+border-bottom: 1px solid #999;
+}
+.header-sub{
+  width:100%;
+	margin:auto;
+	max-width:525px;
+padding-left: 200px;
+}
+
+.header a{
+  color: #0072ff;
+  text-decoration: none;
+  margin:0 25px 10px 0;
+	display:inline-block;
+}
+.header a:hover{
+  color:#8a0f53
+}
+.header small{
+  color:#666;
+}
+.header active{
+  color:#2c7612;
+}
+.content{
+  padding: 20px;
+}
